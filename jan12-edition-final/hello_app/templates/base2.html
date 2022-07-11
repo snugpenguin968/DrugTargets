@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein QuickRef</title>
+    <link rel='stylesheet' href='static/main.css'>
+</head>
+<body onload=openResults()>
+    <script type="text/javascript">
+        function openResults(){
+            var urls = JSON.parse('{{ name|tojson }}');
+            
+            for (var i = 0; i < urls.length; i++)
+            {
+                window.open(urls[i], '_blank');
+            }
+        };
+    </script>
+    <div class='navbar'>
+        <div class='container'>
+            <a class='logo' href='#'>Protein<span> QuickRef</span></a>
+            <img id='site_logo' class='site' src='/static/pics/ref.png' alt='Logo'>
+        </div>
+    </div>
+    <section class='hero'>
+        <form method='POST' class='overall'>
+        <div class='container'>
+            <h1>Search</h1>
+            
+                <div class='box'>
+                    <label for='protein'></label>
+                    <input type='text'  id='protein' name='protein' placeholder='UniProt ID, Gene Symbol, OMIM ID, or Ensemble Gene ID (Case Sensitive) '>
+                    <button type='submit' onClick=search() >Submit</button>
+                    <script type="text/javascript">
+                        document.getElementById("SearchButton").onclick = function() 
+                        {
+                            let checkedValue = 0;
+                            if (document.getElementById('choice1').checked == true)
+                                checkedValue += 1;
+                            if (document.getElementById('choice2').checked == true)
+                                checkedValue += 2;
+                            if (document.getElementById('choice3').checked == true)
+                                checkedValue += 4;
+                            if (document.getElementById('choice4').checked == true)
+                                checkedValue += 8;
+                                if (document.getElementById('choice5').checked == true)
+                                checkedValue += 16;
+                            if (document.getElementById('choice6').checked == true)
+                                checkedValue += 32;
+                            if (document.getElementById('choice7').checked == true)
+                                checkedValue += 64;
+                            if (document.getElementById('choice8').checked == true)
+                                checkedValue += 128;
+                                if (document.getElementById('choice9').checked == true)
+                                checkedValue += 256;
+                            window.open("{{ url_for('home') }}"+"hello/" + document.getElementById('protein').value + "/" + checkedValue.toString(), '_self');
+
+                        };
+                    </script>
+                </div>
+                <h2>Options</h2>
+                <div class='choices'>
+                    <div class='one'>
+                        <label class='choice'>Functions
+                            <input type='checkbox' name='Functions' id='choice1' value='Function' checked>
+                            <span class='checkmark'></span>
+                        </label> 
+                        <label class='choice'>Animal Models
+                            <input type='checkbox' name='Animal Models' id='choice2' value='Animal Model' checked>
+                            <span class='checkmark'></span> 
+                        </label>
+                        <label class='choice'>Protein Level in Cell Lines
+                            <input type='checkbox' name='Protein Level in Cell Lines' id='choice3' value='ProteinLevelinCellLines' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                        <label class='choice'>Subcellular Location
+                            <input type='checkbox' name='Subcellular Location' id='choice4' value='Subcellular Location' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                        <label class='choice'>Tissue Distribution
+                            <input type='checkbox' name='Tissue Distribution' id='choice5' value='Tissue Distribution' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                    </div>
+                    <div class='two'>
+                        <label class='choice'>RNA Expression in Different Cell Lines
+                            <input type='checkbox' name='RNA and Protein Expression' id='choice6' value='RNA and Protein Expression' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                        <label class='choice'>Mutation Frequency in Cancer and Survival Rate
+                            <input type='checkbox' name='Mutation Frequency in Cancer and Survival Rate' id='choice7' value='Mutation Frequency in Cancer and Survival Rate' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                        <label class='choice'>Mouse Phenotypes
+                            <input type='checkbox' name='Mouse Phenotypes' id='choice8' value='Mouse Phenotypes' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                        <label class='choice'>Drug Targets
+                            <input type='checkbox' name='Drug Targets' id='choice9' value='Open Targets' checked>
+                            <span class='checkmark'></span>
+                        </label>
+                    </div>
+                    
+                
+                </div>
+            </div>
+        </section>
+        <section class='about'>
+            <h2>About</h2>
+    
+            <div class='desc'>
+                <p>Protein QuickRef is a gene research aggregation site that directly takes the user to relevant sources based on their search specifications. This site does not contain unique information. Rather, it contains references to UniProt, OMIM, DepMap, The Human Protein Atlas, cBioPortal, Pharos, IMPC, and Open Targets. </p>
+            </div>
+            <div class='container'>
+                <p><span>Functions:</span> covers the various molecular and cellular functions that the protein provides 
+                    (source: UniProt, OMIM)</p>
+                <p><span>Animal Models</span>: presents different research studies over many years, specifically involving mice
+                    (source: OMIM)</p>
+                <p><span>Protein Level in Cell Lines:</span> plotted data directly from Harvard’s Quantitative Proteomics of the Cancer Cell Line Encyclopedia
+                    (source: DepMap)</p>
+                <p><span>Subcellular Location:</span> diagrams of specific subcellular location of the protein, along with cellular components 
+                    (source: UniProt, The Human Protein Atlas)</p>
+                <p><span>Tissue Distribution:</span> tables of tissue distribution and expression in organs within the body 
+                    (source: The Human Protein Atlas)</p>
+                <p><span>RNA expression in different cell lines:</span> displays rna and protein expression in specific cell lines using table graphs
+                    (source: The Human Protein Atlas)</p>
+                <p><span>Mutation Frequency in Cancer and Survival Rate:</span> displays data of Cancer Types Summary and comparison/survival rate using the TCGA PanCancer Atlas Studies 
+                    (source: cBioPortal)</p>
+                <p><span>Mouse Phenotypes:</span> phenotyping data and studies associated with mice 
+                    (source: IMPC)</p>
+                <p><span>Drug Targets:</span> identification and prioritisation of potential therapeutic drug targets and collection of target, disease, and ligand information
+                    (source: Pharos, Open Targets)</p>
+        </div>
+    </section>
+        
+         
+    </body>
+    </html>
